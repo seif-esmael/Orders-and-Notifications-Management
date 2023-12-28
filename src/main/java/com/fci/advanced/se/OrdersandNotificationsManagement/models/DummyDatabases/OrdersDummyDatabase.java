@@ -29,7 +29,10 @@ public class OrdersDummyDatabase
     {
         for(Order i : orders)
         {
-            return i;
+            if(i.getId() == orderID)
+            {
+                return i;
+            }
         }
         return null;
     }

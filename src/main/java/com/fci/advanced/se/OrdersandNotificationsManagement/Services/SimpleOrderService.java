@@ -38,8 +38,8 @@ public class SimpleOrderService implements OrderService
     @Override
     public String placeOrder(int orderID)
     {
-        SimpleOrder order = (SimpleOrder) orders.getOrder(orderID);
-        if(order.equals(null))
+        Order order = orders.getOrder(orderID);
+        if(order == null)
         {
             return "Order is not found";
         }

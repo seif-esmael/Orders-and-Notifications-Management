@@ -4,23 +4,35 @@ import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Orde
 
 import java.util.Map;
 
-public abstract class Notification {
-    private int notificationID;
-    private State state;
-    private Map<Character,String>placeholders;
+public class Notification {
 
-    public Notification(int notificationID, State state, Map<Character, String> placeholders) {
-        this.notificationID = notificationID;
-        this.state = state;
-        this.placeholders = placeholders;
+    protected static Long notificationID=1L;
+    protected State state;
+    protected Map<Character,String>placeholders;
+
+
+    public NotificationTemplate getTemplate() {
+        return template;
     }
 
-    public int getNotificationID() {
+    public void setTemplate(NotificationTemplate template) {
+        this.template = template;
+    }
+
+    protected NotificationTemplate template;
+
+    public Notification(NotificationTemplate template) {
+        notificationID++;
+        this.state = State.TO_BE_SENT;
+        this.template = template;
+    }
+
+    public Long getNotificationID() {
         return notificationID;
     }
 
-    public void setNotificationID(int notificationID) {
-        this.notificationID = notificationID;
+    public void setNotificationID(Long notificationID) {
+        Notification.notificationID = notificationID;
     }
 
     public State getState() {
@@ -35,7 +47,7 @@ public abstract class Notification {
         return placeholders;
     }
 
-    public void setPlaceholders(Order order) {
+    public void setPlaceholders(Map<Character, String> placeholders) {
         this.placeholders = placeholders;
     }
 }

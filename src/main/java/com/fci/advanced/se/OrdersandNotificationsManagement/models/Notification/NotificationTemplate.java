@@ -1,17 +1,12 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification;
 
 public class NotificationTemplate {
-    private int templateID;
-    private String messgaeContent;
+    private static int templateID=1;
+    private String messageContent;
 
-    public NotificationTemplate(int templateID, String messgaeContent) {
-        this.templateID = templateID;
-        this.messgaeContent = messgaeContent;
-    }
-
-    public String useLanguage(Language language)
-    {
-        return "Zebby Tawil nek";
+    public NotificationTemplate(String messageContent) {
+        templateID++;
+        this.messageContent = messageContent;
     }
 
     public int getTemplateID() {
@@ -22,11 +17,11 @@ public class NotificationTemplate {
         this.templateID = templateID;
     }
 
-    public String getMessgaeContent() {
-        return messgaeContent;
+    public String getMessageContent() {
+        return messageContent;
     }
 
-    public void setMessgaeContent(String messgaeContent) {
-        this.messgaeContent = messgaeContent;
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
     }
 }

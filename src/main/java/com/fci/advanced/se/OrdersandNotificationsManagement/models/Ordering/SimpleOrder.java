@@ -3,6 +3,7 @@ package com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Products.Product;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Shopping.Cart;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class SimpleOrder extends Order{
@@ -12,7 +13,7 @@ public class SimpleOrder extends Order{
         super(price, customerName, address);
     }
 
-    public void addProducts(Cart cart){
-        products = cart.products;
+    public void addProducts(ArrayList<Product>products){
+        products = products;
     }
 }

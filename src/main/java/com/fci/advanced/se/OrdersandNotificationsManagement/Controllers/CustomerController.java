@@ -2,10 +2,12 @@ package com.fci.advanced.se.OrdersandNotificationsManagement.Controllers;
 
 import com.fci.advanced.se.OrdersandNotificationsManagement.Services.CustomerService;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CustomerController {
+
     private CustomerService customerservice;
 
     public CustomerController(CustomerService customerservice) {

@@ -3,6 +3,7 @@ package com.fci.advanced.se.OrdersandNotificationsManagement.Controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fci.advanced.se.OrdersandNotificationsManagement.Services.InventoryService;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Products.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

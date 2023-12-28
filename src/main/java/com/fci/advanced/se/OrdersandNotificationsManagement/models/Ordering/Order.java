@@ -1,6 +1,7 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering;
 
-public abstract class Order {
+public abstract class Order
+{
     protected static int id = 1;
     protected double price;
     protected String address;
@@ -8,7 +9,8 @@ public abstract class Order {
     protected boolean beingShipped = false;
     protected boolean placed = false;
 
-    public Order(double price, String customerName, String address) {
+    public Order(double price, String customerName, String address)
+    {
         id++;
         this.price = price;
         this.customerName = customerName;

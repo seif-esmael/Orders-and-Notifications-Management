@@ -1,6 +1,7 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification;
 
-public enum Language {
+public enum Language
+{
     ENGLISH,
     ARABIC,
     SPANISH

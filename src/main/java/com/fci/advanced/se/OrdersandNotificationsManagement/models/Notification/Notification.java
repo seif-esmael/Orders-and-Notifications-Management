@@ -1,32 +1,27 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification;
 
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Order;
-
 import java.util.Map;
 
-public class Notification {
+public class Notification
+{
+    private static Long notificationID=1L;
+    private State state;
+    private Map<Character,String>placeholders;
+    private String messageContent;
 
-    protected static Long notificationID=1L;
-    protected State state;
-    protected Map<Character,String>placeholders;
-
-
-    public NotificationTemplate getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(NotificationTemplate template) {
-        this.template = template;
-    }
-
-    protected NotificationTemplate template;
-
-    public Notification(NotificationTemplate template) {
+    public Notification()
+    {
         notificationID++;
         this.state = State.TO_BE_SENT;
-        this.template = template;
     }
-
+    public void setContent(String content)
+    {
+        messageContent = content;
+    }
+    public String getContent()
+    {
+        return messageContent;
+    }
     public Long getNotificationID() {
         return notificationID;
     }

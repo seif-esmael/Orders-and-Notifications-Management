@@ -20,10 +20,10 @@ public class CompoundOrderService {
         return "Order Details";
     }
 
-    public void notifyObserver()
+    /*public void notifyObserver()
     {
         this.observer.update(123);
-    }
+    }*/
     public void addObserver(OrderObserver NO)
     {
         this.observer = NO;

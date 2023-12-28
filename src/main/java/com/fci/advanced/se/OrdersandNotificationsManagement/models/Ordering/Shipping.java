@@ -1,21 +1,19 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering;
 
-public class Shipping {
-
+public class Shipping
+{
     private int orderID;
     private String address;
-    private String Date;
     private int cancelPlacementDuration;
-    private boolean status;
+    private boolean shipped = false;
     private double fees;
 
-    public Shipping(int orderID, String address, String date, int cancelPlacementDuration, boolean status, double fees) {
+    public Shipping(int orderID, String address)
+    {
+        fees = Math.random()*(100.0);
+        cancelPlacementDuration = 100;
         this.orderID = orderID;
         this.address = address;
-        Date = date;
-        this.cancelPlacementDuration = cancelPlacementDuration;
-        this.status = status;
-        this.fees = fees;
     }
 
     public int getOrderID() {
@@ -34,13 +32,6 @@ public class Shipping {
         this.address = address;
     }
 
-    public String getDate() {
-        return Date;
-    }
-
-    public void setDate(String date) {
-        Date = date;
-    }
 
     public int getCancelPlacementDuration() {
         return cancelPlacementDuration;
@@ -50,12 +41,12 @@ public class Shipping {
         this.cancelPlacementDuration = cancelPlacementDuration;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isBeingShipped() {
+        return shipped;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setShipping(boolean status) {
+        shipped = status;
     }
 
     public double getFees() {

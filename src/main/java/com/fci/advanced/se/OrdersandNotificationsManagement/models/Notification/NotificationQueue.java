@@ -1,25 +1,18 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationQueue {
-    public static List<Notification> notifications;
+public class NotificationQueue
+{
+    public static List<Notification> notifications = new ArrayList<>();
 
-    public NotificationQueue(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
-    public void insert(Notification n)
+    public static void insert(Notification notification)
     {
-        this.notifications.add(n);
+        notifications.add(notification);
     }
-    public void remove(Notification n)
+    public void remove(Notification notification)
     {
-        this.notifications.remove(n);
-
-    }
-    public String display()
-    {
-        String s = notifications.toString();
-        return s;
+        notifications.remove(notification);
     }
 }

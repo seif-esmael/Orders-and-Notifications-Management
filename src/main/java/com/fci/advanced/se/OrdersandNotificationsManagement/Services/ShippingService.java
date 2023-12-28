@@ -4,13 +4,8 @@ import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Ship
 
 import java.util.List;
 
-public class ShippingService {
-    private final List<Shipping> shippings;
-
-    public ShippingService(List<Shipping> shippings) {
-        this.shippings = shippings;
-    }
-
+public class ShippingService
+{
     public String ship(int orderID)
     {
         return "Shipped";

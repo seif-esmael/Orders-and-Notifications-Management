@@ -39,7 +39,7 @@ public class SimpleOrderService implements OrderService
     public String placeOrder(int orderID)
     {
         SimpleOrder order = (SimpleOrder) orders.getOrder(orderID);
-        if(order == null)
+        if(order.equals(null))
         {
             return "Order is not found";
         }

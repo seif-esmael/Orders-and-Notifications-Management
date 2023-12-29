@@ -57,6 +57,7 @@ public class NotificationService
         {
             result += i.getContent();
             result += useLanguage(language);
+            notification.setChannel(channel);
             result += useChannel(channel);
             result += '\n';
             result += '\n';
@@ -67,7 +68,7 @@ public class NotificationService
     {
         int maxi = 0;
         String username = "";
-        for(Map.Entry<String, Integer> entry : NotificationManager.notifiedCustomers.entrySet())
+        for(Map.Entry<String, Integer> entry : NotificationManager.notifiedEmailCustomers.entrySet())
         {
             if(entry.getValue() > maxi)
             {
@@ -86,7 +87,7 @@ public class NotificationService
     {
         int maxi = 0;
         String username = "";
-        for(Map.Entry<String, Integer> entry : NotificationManager.notifiedCustomers.entrySet())
+        for(Map.Entry<String, Integer> entry : NotificationManager.notifiedSMSCustomers.entrySet())
         {
             if(entry.getValue() > maxi)
             {

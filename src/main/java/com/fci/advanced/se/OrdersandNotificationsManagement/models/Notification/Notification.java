@@ -8,6 +8,24 @@ public class Notification
     private Map<Character,String>placeholders;
     private String messageContent;
 
+    public String getMessageContent() {
+        return messageContent;
+    }
+
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    private Channel channel;
+
     public Notification()
     {
         notificationID++;

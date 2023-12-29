@@ -80,7 +80,7 @@ public class CartService {
         OrdersDummyDatabase.addOrder(simpleorder);
         for(Map.Entry<Product, Integer> entry : cart.products.entrySet())
         {
-            inventoryService.updateProductQuantity(entry.getKey().getSerialNumber(),-entry.getValue());
+            inventoryService.updateProductQuantity(entry.getKey().getSerialNumber(),entry.getValue());
         }
         this.cart.clear();
         return simpleorder;

@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class CompoundOrderService
 {
-    private CompoundOrderObserver observer = new CompoundOrderObserver(); // this
+    private CompoundOrderObserver observer = new CompoundOrderObserver(this);
     private SimpleOrderService simpleOrderService = new SimpleOrderService();
 
     public Order showOrderDetails(int orderID)
@@ -28,6 +28,7 @@ public class CompoundOrderService
     {
         double totalPrice = 0.0;
         CompoundOrder compoundOrder = new CompoundOrder(totalPrice,username,address);
+        boolean checkIfThereIsOrderOfYours = false;
         for(Integer i : orderIDs)
         {
             Order order = OrdersDummyDatabase.getOrder(i);
@@ -43,8 +44,16 @@ public class CompoundOrderService
             {
                 return "The order with ID: " + i + " is already being shipped!";
             }
+            if(order.getCustomerName().equals(username))
+            {
+                checkIfThereIsOrderOfYours = true;
+            }
             totalPrice += order.getPrice();
             compoundOrder.addOrder(order);
+        }
+        if(!checkIfThereIsOrderOfYours)
+        {
+            return "There is no order of yours in these orders, please add at least one order of your own!";
         }
         compoundOrder.setPrice(totalPrice);
         OrdersDummyDatabase.addOrder(compoundOrder);
@@ -150,7 +159,7 @@ public class CompoundOrderService
             ShippingsDummyDatabase.addShipping(shipping);
             NotificationTemplate compoundShippingTemplate = NotificationTemplate.ShippingCompound;
             notifyObserver(orderID, compoundShippingTemplate);
-            return "The Order is placed for shipping with fees " + feesForEach + " for each customer in the order";
+            return "The Order is placed for shipping with fees " + feesForEach + " for each customer in the order" + ", you can cancel order shipping during the next minute only!";
         }
         return "Couldn't ship the order as " + problems + " balances' is not enough!";
     }
@@ -181,5 +190,21 @@ public class CompoundOrderService
             order.setBeingShipped(false);
         }
         return "Shipping Canceled and its fees is added back to each customer balance";
+    }
+    public Order getOrder(int orderID)
+    {
+        return OrdersDummyDatabase.getOrder(orderID);
+    }
+    public String getOrderCustomers(int orderID)
+    {
+        Order order = getOrder(orderID);
+        String customerNames = "";
+        for(Order o : ((CompoundOrder) order).getOrders())
+        {
+            customerNames += o.getCustomerName();
+            customerNames += ", ";
+        }
+        customerNames = customerNames.substring(0,customerNames.length()-2);
+        return customerNames;
     }
 }

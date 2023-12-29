@@ -1,13 +1,15 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.Products;
 
-public class Product {
+public class Product
+{
     private int serialNumber;
     private String name;
     private String vendor;
-    private Category category;
+    private CategoryType category;
+
     private double price;
 
-    public Product(int serialNumber, String name, String vendor, Category category, double price) {
+    public Product(int serialNumber, String name, String vendor, CategoryType category, double price) {
         this.serialNumber = serialNumber;
         this.name = name;
         this.vendor = vendor;
@@ -39,11 +41,11 @@ public class Product {
         this.vendor = vendor;
     }
 
-    public Category getCategory() {
+    public CategoryType getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryType category) {
         this.category = category;
     }
 

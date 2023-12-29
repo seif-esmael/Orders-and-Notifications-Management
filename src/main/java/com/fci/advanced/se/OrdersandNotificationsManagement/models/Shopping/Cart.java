@@ -5,7 +5,8 @@ import com.fci.advanced.se.OrdersandNotificationsManagement.models.Products.Prod
 import java.util.HashMap;
 import java.util.Map;
 
-public class Cart {
+public class Cart
+{
     public Map<Product,Integer>products = new HashMap<>();
     private double totalPrice;
 

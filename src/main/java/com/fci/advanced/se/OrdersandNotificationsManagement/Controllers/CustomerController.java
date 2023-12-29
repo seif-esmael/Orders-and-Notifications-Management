@@ -6,18 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class CustomerController {
-
-    private CustomerService customerservice;
-
-    public CustomerController(CustomerService customerservice) {
-        this.customerservice = customerservice;
-    }
-
+@RequestMapping(value = "/customer")
+public class CustomerController
+{
+    private CustomerService customerservice = new CustomerService();
     @PostMapping(value = "/register")
-    public String register(@RequestBody Customer customer)
+    public String register(@RequestParam String username, @RequestParam String phoneNumber, @RequestParam String address, @RequestParam String email, @RequestParam String password, @RequestParam double balance)
     {
-        return customerservice.register(customer);
+        return customerservice.register(username,phoneNumber,address,email,password,balance);
     }
 
     @GetMapping(value = "/login")

@@ -1,6 +1,9 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.Services;
 
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.CustomersDummyDatabase;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification.*;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.Products.Product;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -45,12 +48,12 @@ public class NotificationService
     }
     public void addNotification(Notification notification)
     {
-        NotificationQueue.insert(notification);
+        NotificationManager.insert(notification);
     }
     public String displayNotifications(Language language, Channel channel)
     {
         String result = "";
-        for(Notification i : NotificationQueue.notifications)
+        for(Notification i : NotificationManager.notifications)
         {
             result += i.getContent();
             result += useLanguage(language);
@@ -59,5 +62,61 @@ public class NotificationService
             result += '\n';
         }
         return result;
+    }
+    public String mostNotifiedEmail()
+    {
+        int maxi = 0;
+        String username = "";
+        for(Map.Entry<String, Integer> entry : NotificationManager.notifiedCustomers.entrySet())
+        {
+            if(entry.getValue() > maxi)
+            {
+                maxi = entry.getValue();
+                username = entry.getKey();
+            }
+        }
+        if(!username.equals(""))
+        {
+            Customer customer = CustomersDummyDatabase.getCustomer(username);
+            return "Most notified is: " + customer.getEmail() + " with total notifications: " + maxi;
+        }
+        return "No notifications sent yet!";
+    }
+    public String mostNotifiedPhoneNumber()
+    {
+        int maxi = 0;
+        String username = "";
+        for(Map.Entry<String, Integer> entry : NotificationManager.notifiedCustomers.entrySet())
+        {
+            if(entry.getValue() > maxi)
+            {
+                maxi = entry.getValue();
+                username = entry.getKey();
+            }
+        }
+        if(!username.equals(""))
+        {
+            Customer customer = CustomersDummyDatabase.getCustomer(username);
+            return "Most notified is: " + customer.getPhoneNumber() + " with total notifications: " + maxi;
+        }
+        return "No notifications sent yet!";
+    }
+    public String mostUsedTemplate()
+    {
+        int maxi = 0;
+        NotificationTemplate notificationTemplate = NotificationTemplate.PlacingCompound;
+        for(Map.Entry<NotificationTemplate, Integer> entry : NotificationManager.templateUsage.entrySet())
+        {
+            if(entry.getValue() > maxi)
+            {
+                maxi = entry.getValue();
+                notificationTemplate = entry.getKey();
+            }
+        }
+        if(maxi == 0)
+        {
+            return "No used template yet!";
+        }
+        return "Most used template is: " + notificationTemplate.getMessageContent();
     }
 }

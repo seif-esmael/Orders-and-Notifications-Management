@@ -7,21 +7,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cart")
-public class CartController {
+public class CartController
+{
     private CartService cartService = new CartService();
-
     @PutMapping(value = "/addproductQuantity")
     public String addProductQuantity(@RequestParam String customerUsername,@RequestParam int serialNo,@RequestParam int quantity)
     {
         return cartService.addProductQuantity(customerUsername,serialNo,quantity);
     }
-
     @PutMapping(value = "/removeproductQuantity")
     public String removeProductQuantity(@RequestParam String customerUsername,@RequestParam int serialNo,@RequestParam int quantity)
     {
         return cartService.removeProductQuantity(customerUsername,serialNo,quantity);
     }
-
     @PostMapping(value = "/checkout")
     public Order checkout(@RequestParam String customerUsername,@RequestParam String address)
     {

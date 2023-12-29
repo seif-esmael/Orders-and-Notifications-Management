@@ -12,10 +12,24 @@ public class NotificationController
 {
     @Autowired
     private NotificationService notificationService = new NotificationService();
-
     @GetMapping(value = "/displayNotifications")
     public String displayNotifications(@RequestParam Language language, @RequestParam Channel channel)
     {
         return notificationService.displayNotifications(language, channel);
+    }
+    @GetMapping(value = "/mostNotifiedEmail")
+    public String mostNotifiedEmail()
+    {
+        return notificationService.mostNotifiedEmail();
+    }
+    @GetMapping(value = "/mostNotifiedPhoneNumber")
+    public String mostNotifiedPhoneNumber()
+    {
+        return notificationService.mostNotifiedPhoneNumber();
+    }
+    @GetMapping(value = "/mostUsedTemplate")
+    public String mostUsedTemplate()
+    {
+        return notificationService.mostUsedTemplate();
     }
 }

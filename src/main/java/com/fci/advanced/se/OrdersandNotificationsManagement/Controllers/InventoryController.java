@@ -9,26 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/inventory")
-public class InventoryController {
-    private InventoryService inventoryService;
-
-    public InventoryController(InventoryService inventoryService) {
-        this.inventoryService = inventoryService;
-    }
+@RequestMapping(value = "/inventory")
+public class InventoryController
+{
+    private InventoryService inventoryService = new InventoryService();
 
     @PostMapping(value = "/addProduct")
     public String addProduct(@RequestBody Product product, @RequestParam int quantity)
     {
         return inventoryService.addProduct(product,quantity);
     }
-
     @PutMapping(value = "/updateProductQuantity")
     public String updateProductQuantity(@RequestParam int serialNumber,@RequestParam int quantity)
     {
         return inventoryService.updateProductQuantity(serialNumber,quantity);
     }
-
     @GetMapping(value = "/getAllProducts")
     public String displayAllProducts() throws JsonProcessingException {
         return inventoryService.displayAllProducts();

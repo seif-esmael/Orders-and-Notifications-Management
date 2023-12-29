@@ -4,7 +4,7 @@ import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabase
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.ShippingsDummyDatabase;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification.NotificationTemplate;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Order;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.OrderObserver;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.SimpleOrderObserver;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Shipping;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.SimpleOrder;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimpleOrderService implements OrderService
 {
-    private OrderObserver observer = new OrderObserver(this);
+    private SimpleOrderObserver observer = new SimpleOrderObserver(this);
 
     public SimpleOrderService()
     {
@@ -100,7 +100,7 @@ public class SimpleOrderService implements OrderService
         ShippingsDummyDatabase.addShipping(shipping);
         NotificationTemplate simpleShippingTemplate = NotificationTemplate.ShippingSimple;
         notifyObserver(orderID, simpleShippingTemplate);
-        return "The Order is placed for shipping with fees " + shipping.getFees();
+        return "The Order is placed for shipping with fees " + shipping.getFees() + ", you can cancel order shipping during the next minute only!";
     }
     public String cancelOrderShipping(String address,int orderID)
     {

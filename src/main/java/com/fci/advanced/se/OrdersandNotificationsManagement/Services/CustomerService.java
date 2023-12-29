@@ -4,6 +4,8 @@ import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabase
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Shopping.Cart;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +21,11 @@ public class CustomerService
             CustomersDummyDatabase.addCustomer(new Customer("Yousef123", "789", "hadayek","saleboct@gmail.com","12345678",2000.0));
         }
     }
-    public String register(Customer customer)
+    public String register(String username, String phoneNumber, String address, String email, String password, double balance)
     {
-        if(CustomersDummyDatabase.isValid(customer.getUserName()))
+        if(CustomersDummyDatabase.isValid(username))
         {
-            CustomersDummyDatabase.addCustomer(customer);
+            CustomersDummyDatabase.addCustomer(new Customer(username,phoneNumber,address,email,password,balance));
             return "Registrestion Completed Succsessfully";
         }
         return "User Name already exists!";

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 public class SimpleOrderController
 {
     private SimpleOrderService orderService = new SimpleOrderService();
-
     @GetMapping(value = "/showOrderDetails")
     public Order showOrderDetails(@RequestParam int orderID)
     {

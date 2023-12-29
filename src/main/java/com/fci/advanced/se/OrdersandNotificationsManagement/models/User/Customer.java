@@ -2,17 +2,18 @@ package com.fci.advanced.se.OrdersandNotificationsManagement.models.User;
 
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Shopping.Cart;
 
-public class Customer {
+public class Customer
+{
     private String userName;
     private String phoneNumber;
     private String address;
     private String email;
     private String password;
     private double balance;
-
     private Cart cart;
 
-    public Customer(String userName, String phoneNumber, String address, String email, String password, double balance) {
+    public Customer(String userName, String phoneNumber, String address, String email, String password, double balance)
+    {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.address = address;

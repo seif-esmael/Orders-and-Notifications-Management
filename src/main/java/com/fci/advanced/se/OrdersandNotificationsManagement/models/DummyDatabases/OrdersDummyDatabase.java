@@ -9,7 +9,6 @@ import java.util.List;
 public class OrdersDummyDatabase
 {
     private static List<Order> orders = new ArrayList<>();
-
     public static void addOrder(Order order)
     {
         orders.add(order);

@@ -9,7 +9,7 @@ import java.util.List;
 public class CustomersDummyDatabase
 {
     private final static List<Customer> customers = new ArrayList<>();
-    public void addCustomer(Customer customer)
+    public static void addCustomer(Customer customer)
     {
         customers.add(customer);
     }
@@ -24,7 +24,7 @@ public class CustomersDummyDatabase
             }
         }
     }
-    public Customer getCustomer(String username)
+    public static Customer getCustomer(String username)
     {
         for(Customer i : customers)
         {
@@ -35,7 +35,7 @@ public class CustomersDummyDatabase
         }
         return null;
     }
-    public boolean isValid(String username)
+    public static boolean isValid(String username)
     {
         for(Customer i : customers)
         {
@@ -46,7 +46,7 @@ public class CustomersDummyDatabase
         }
         return true;
     }
-    public boolean findCustomer(String email, String password)
+    public static boolean findCustomer(String email, String password)
     {
         for (Customer c : customers) {
             if (c.getEmail().equals(email) && c.getPassword().equals(password))
@@ -56,7 +56,7 @@ public class CustomersDummyDatabase
         }
         return false;
     }
-    public Cart getUserCart(String userName)
+    public static Cart getUserCart(String userName)
     {
         for (Customer c : customers)
         {
@@ -66,5 +66,9 @@ public class CustomersDummyDatabase
             }
         }
         return null;
+    }
+    public static int getSize()
+    {
+        return customers.size();
     }
 }

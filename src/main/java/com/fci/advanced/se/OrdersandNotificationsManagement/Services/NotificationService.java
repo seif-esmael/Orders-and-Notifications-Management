@@ -17,10 +17,9 @@ public class NotificationService
 
     public void applyPlaceHolders(Map<Character, String> placeholders, String message)
     {
-        int length = message.length();
         for(int i=0; i<placeholders.keySet().size(); i++)
         {
-            for(int j = 0; j < length; j++)
+            for(int j = 0; j < message.length(); j++)
             {
                 if(placeholders.containsKey(message.charAt(j)) && message.charAt(j-1)=='{')
                 {
@@ -44,7 +43,7 @@ public class NotificationService
     }
     public String displayNotifications(Language language)
     {
-        String result = "";
+        String result = "sxsxs";
         for(Notification i : NotificationQueue.notifications)
         {
             result += i.getContent();

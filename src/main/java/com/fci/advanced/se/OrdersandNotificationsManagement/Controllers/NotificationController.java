@@ -17,8 +17,8 @@ public class NotificationController
     private NotificationService notificationService = new NotificationService();
 
     @GetMapping(value = "/displayNotifications")
-    public String displayNotifications(@RequestParam Language language)
+    public String displayNotifications()
     {
-        return notificationService.displayNotifications(language);
+        return notificationService.displayNotifications(Language.ENGLISH);
     }
 }

@@ -7,12 +7,12 @@ import java.util.List;
 
 public class ShippingsDummyDatabase
 {
-    private final List<Shipping> shippings = new ArrayList<>();
-    public void addShipping(Shipping shipping)
+    private static List<Shipping> shippings = new ArrayList<>();
+    public static void addShipping(Shipping shipping)
     {
         shippings.add(shipping);
     }
-    public void removeShipping(Shipping shipping)
+    public static void removeShipping(Shipping shipping)
     {
         for(int i = 0; i < shippings.size(); i++)
         {
@@ -23,7 +23,7 @@ public class ShippingsDummyDatabase
             }
         }
     }
-    public Shipping getShipping(int orderID)
+    public static Shipping getShipping(int orderID)
     {
         for(Shipping i : shippings)
         {
@@ -33,5 +33,9 @@ public class ShippingsDummyDatabase
             }
         }
         return null;
+    }
+    public int getSize()
+    {
+        return shippings.size();
     }
 }

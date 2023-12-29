@@ -2,7 +2,8 @@ package com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering;
 
 public abstract class Order
 {
-    protected static int id = 1;
+    protected static int idCounter = 1;
+    protected int id;
     protected double price;
     protected String address;
     protected String customerName;
@@ -11,10 +12,11 @@ public abstract class Order
 
     public Order(double price, String customerName, String address)
     {
-        id++;
         this.price = price;
         this.customerName = customerName;
         this.address = address;
+        id=idCounter;
+        idCounter++;
     }
 
     public int getId() {

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/orders")
 public class SimpleOrderController
 {
-    @Autowired
     private SimpleOrderService orderService = new SimpleOrderService();
 
     @GetMapping(value = "/showOrderDetails")

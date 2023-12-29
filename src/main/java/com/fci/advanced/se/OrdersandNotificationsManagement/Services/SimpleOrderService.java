@@ -13,22 +13,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimpleOrderService implements OrderService
 {
-    public OrdersDummyDatabase orders = new OrdersDummyDatabase();
-    CustomersDummyDatabase customers = new CustomersDummyDatabase();
-    ShippingsDummyDatabase shippings = new ShippingsDummyDatabase();
     private OrderObserver observer = new OrderObserver(this);
 
     public SimpleOrderService()
     {
-        orders.addOrder(new SimpleOrder(50,"yousef","hadayek-elahram"));
-        orders.addOrder(new SimpleOrder(100,"mo","dokki"));
-        orders.addOrder(new SimpleOrder(520,"ahmed","ismailia"));
-        orders.addOrder(new SimpleOrder(90,"ayman","giza"));
+        if(OrdersDummyDatabase.getSize() == 0)
+        {
+            OrdersDummyDatabase.addOrder(new SimpleOrder(50,"Kiro123","hadayek-elahram"));
+            OrdersDummyDatabase.addOrder(new SimpleOrder(100,"Kiro123","dokki"));
+            OrdersDummyDatabase.addOrder(new SimpleOrder(520,"Seif123","ismailia"));
+            OrdersDummyDatabase.addOrder(new SimpleOrder(90,"Yousef123","giza"));
+        }
     }
     @Override
     public Order showOrderDetails(int orderID)
     {
-        return orders.getOrder(orderID);
+        return OrdersDummyDatabase.getOrder(orderID);
     }
 
     public void notifyObserver(int orderID, NotificationTemplate template)
@@ -38,7 +38,7 @@ public class SimpleOrderService implements OrderService
     @Override
     public String placeOrder(int orderID)
     {
-        Order order = orders.getOrder(orderID);
+        Order order = OrdersDummyDatabase.getOrder(orderID);
         if(order == null)
         {
             return "Order is not found";
@@ -47,12 +47,12 @@ public class SimpleOrderService implements OrderService
         {
             return "Order is already placed!";
         }
-        order.setPlaced(true);
-        Customer customer = customers.getCustomer(order.getCustomerName());
+        Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
         if(customer.getBalance() < order.getPrice())
         {
             return "Your balance is not enough!";
         }
+        order.setPlaced(true);
         customer.setBalance(customer.getBalance()-order.getPrice());
         NotificationTemplate simplePlacementTemplate = NotificationTemplate.PlacingSimple;
         notifyObserver(orderID, simplePlacementTemplate);
@@ -60,7 +60,7 @@ public class SimpleOrderService implements OrderService
     }
     public String cancelOrderPlacement(int orderID)
     {
-        Order order = orders.getOrder(orderID);
+        Order order = OrdersDummyDatabase.getOrder(orderID);
         if(order == null)
         {
             return "Order is not found";
@@ -74,31 +74,31 @@ public class SimpleOrderService implements OrderService
             return "Order is already being shipped, cancel shipment first!";
         }
         order.setPlaced(false);
-        Customer customer = customers.getCustomer(order.getCustomerName());
+        Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
         customer.setBalance(customer.getBalance()+order.getPrice());
         return "Order unplaced and its fees is added back to your balance";
     }
     public String packageOrder(String address, int orderID)
     {
         Shipping shipping = new Shipping(orderID,address);
-        Order order = orders.getOrder(orderID);
+        Order order = OrdersDummyDatabase.getOrder(orderID);
         if(order == null)
         {
             return "Order is not found";
         }
-        Customer customer = customers.getCustomer(order.getCustomerName());
+        Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
         if(shipping.getFees() > customer.getBalance())
         {
             return "Your balance is not enough for shipping!";
         }
         order.setBeingShipped(true);
         customer.setBalance(customer.getBalance() - shipping.getFees());
-        shippings.addShipping(shipping);
+        ShippingsDummyDatabase.addShipping(shipping);
         return "The Order is placed for shipping with fees " + shipping.getFees();
     }
     public String cancelOrderShipping(String address,int orderID)
     {
-        Order order = orders.getOrder(orderID);
+        Order order = OrdersDummyDatabase.getOrder(orderID);
         if(order == null)
         {
             return "Order is not found";
@@ -107,19 +107,19 @@ public class SimpleOrderService implements OrderService
         {
             return "Order is not placed for shipping!";
         }
-        Shipping shipping = shippings.getShipping(orderID);
+        Shipping shipping = ShippingsDummyDatabase.getShipping(orderID);
         if(shipping.getCancelPlacementDuration() == 0)
         {
             return "You can't cancel shipping now as its cancel shipping duration is ended!";
         }
-        shippings.removeShipping(shipping);
-        Customer customer = customers.getCustomer(order.getCustomerName());
+        ShippingsDummyDatabase.removeShipping(shipping);
+        Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
         customer.setBalance(customer.getBalance() + shipping.getFees());
         order.setBeingShipped(false);
         return "Shipping Canceled and its fees is added back to your balance";
     }
     public Order getOrder(int orderID)
     {
-        return orders.getOrder(orderID);
+        return OrdersDummyDatabase.getOrder(orderID);
     }
 }

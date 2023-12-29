@@ -12,7 +12,11 @@ public class Cart {
     public Map<Product, Integer> getProducts() {
         return products;
     }
-
+    public void clear()
+    {
+        products.clear();
+        setTotalPrice(0);
+    }
     public void setProducts(Map<Product, Integer> products) {
         this.products = products;
     }

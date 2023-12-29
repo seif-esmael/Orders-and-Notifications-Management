@@ -11,12 +11,14 @@ import java.util.Map;
 import static com.fci.advanced.se.OrdersandNotificationsManagement.models.Products.Category.*;
 
 @Service
-public class InventoryService {
+public class InventoryService
+{
     private Inventory inv;
 
-    public InventoryService() {
+    public InventoryService()
+    {
         this.inv = new Inventory();
-        if (this.inv.inventory.size() == 0)
+        if(this.inv.inventory.size() == 0)
         {
             inv.inventory.put(new Product(1,"iphone","seif",SmartPhones,5000.0),3);
             inv.inventory.put(new Product(2,"samsungA20","kiro",SmartPhones,2000.0),10);
@@ -26,10 +28,10 @@ public class InventoryService {
             inv.inventory.put(new Product(6,"airpods","zoz",HeadPhones,2000.0),1);
         }
     }
-
     public String addProduct(Product product,int quantity)
     {
-        for (Map.Entry<Product, Integer> entry : inv.inventory.entrySet()) {
+        for (Map.Entry<Product, Integer> entry : inv.inventory.entrySet())
+        {
             if (entry.getKey().getSerialNumber() == product.getSerialNumber())
             {
                 return "This Serial Number already exists!";
@@ -38,11 +40,11 @@ public class InventoryService {
         inv.inventory.put(product,quantity);
         return "Product added Successfully";
     }
-
     public String updateProductQuantity(int serialNumber, int quantity)
     {
-        for (Map.Entry<Product, Integer> entry : inv.inventory.entrySet()) {
-            if (entry.getKey().getSerialNumber() == serialNumber)
+        for(Map.Entry<Product, Integer> entry : inv.inventory.entrySet())
+        {
+            if(entry.getKey().getSerialNumber() == serialNumber)
             {
                 int quant = entry.getValue();
                 Product p = entry.getKey();
@@ -54,11 +56,11 @@ public class InventoryService {
         }
         return "Product doesn't exist!";
     }
-
     public boolean isAvailableQuantity(int serialNumber, int quantity)
     {
-        for (Map.Entry<Product, Integer> entry : inv.inventory.entrySet()) {
-            if (entry.getKey().getSerialNumber() == serialNumber)
+        for(Map.Entry<Product, Integer> entry : inv.inventory.entrySet())
+        {
+            if(entry.getKey().getSerialNumber() == serialNumber)
             {
                 if(entry.getValue() < quantity)
                     return false;
@@ -68,12 +70,12 @@ public class InventoryService {
         return false;
     }
 
-    public String displayAllProducts() throws JsonProcessingException {
+    public String displayAllProducts() throws JsonProcessingException
+    {
         String result = "";
-
-        for (Map.Entry<Product, Integer> entry : inv.inventory.entrySet()) {
+        for (Map.Entry<Product, Integer> entry : inv.inventory.entrySet())
+        {
             ObjectMapper objectMapper = new ObjectMapper();
-
             result += objectMapper.writeValueAsString(entry.getKey()) + "\n";
             result += "quantity: " + entry.getValue().toString() + "\n";
         }
@@ -82,7 +84,8 @@ public class InventoryService {
 
     public Product getProductBySerialNumber(int serialNo)
     {
-        for (Map.Entry<Product, Integer> entry : inv.inventory.entrySet()) {
+        for (Map.Entry<Product, Integer> entry : inv.inventory.entrySet())
+        {
             if (entry.getKey().getSerialNumber() == serialNo)
             {
                 return entry.getKey();

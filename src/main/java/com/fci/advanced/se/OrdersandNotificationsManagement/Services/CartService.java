@@ -1,5 +1,7 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.Services;
 
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.CustomersDummyDatabase;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.OrdersDummyDatabase;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Order;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.SimpleOrder;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Products.Product;
@@ -22,18 +24,19 @@ public class CartService {
 
     public String addProductQuantity(String customerUsername,int serialNo, int quantity)
     {
-        this.cart = customerService.customers.getUserCart(customerUsername);
+        this.cart = CustomersDummyDatabase.getUserCart(customerUsername);
         if (inventoryService.isAvailableQuantity(serialNo, quantity))
         {
             Product product = inventoryService.getProductBySerialNumber(serialNo);
             inventoryService.updateProductQuantity(serialNo,quantity);
+            int newQuantity = quantity;
             if(cart.products.containsKey(product))
             {
                 quantity+= cart.products.get(product);
                 cart.products.remove(product);
             }
-            cart.products.put(inventoryService.getProductBySerialNumber(serialNo),quantity);
-            cart.setTotalPrice(cart.getTotalPrice() + (product.getPrice() * quantity));
+            cart.products.put(product,quantity);
+            cart.setTotalPrice(cart.getTotalPrice() + (product.getPrice() * newQuantity));
             return "Product Quantity Added to Cart";
         }
         return "Unavailable Product!";
@@ -41,7 +44,7 @@ public class CartService {
 
     public String removeProductQuantity(String customerUsername,int serialNo, int quantity)
     {
-        this.cart = customerService.customers.getUserCart(customerUsername);
+        this.cart = CustomersDummyDatabase.getUserCart(customerUsername);
         if (isAvailableQuantity(serialNo,quantity))
         {
             Product product = inventoryService.getProductBySerialNumber(serialNo);
@@ -69,13 +72,13 @@ public class CartService {
         }
         return false;
     }
-
     public Order checkout(String customerUsername, String address)
     {
-        this.cart = customerService.customers.getUserCart(customerUsername);
+        this.cart = CustomersDummyDatabase.getUserCart(customerUsername);
         SimpleOrder simpleorder = new SimpleOrder(cart.getTotalPrice(),customerUsername,address);
         simpleorder.addProducts(this.cart);
-        orderService.orders.addOrder(simpleorder);
+        OrdersDummyDatabase.addOrder(simpleorder);
+        this.cart.clear();
         return simpleorder;
     }
 }

@@ -10,26 +10,27 @@ import java.util.List;
 @Service
 public class CustomerService {
 
-    CustomersDummyDatabase customers = new CustomersDummyDatabase();
-
     public CustomerService()
     {
-        customers.addCustomer(new Customer("Seif123", "123", "giza","seif@gmail.com","123456",3000.0));
-        customers.addCustomer(new Customer("Kiro123", "456", "haram","kiro@gmail.com","1234567",3500.0));
-        customers.addCustomer(new Customer("Yousef123", "789", "hadayek","saleboct@gmail.com","12345678",2000.0));
+        if(CustomersDummyDatabase.getSize() == 0)
+        {
+            CustomersDummyDatabase.addCustomer(new Customer("Seif123", "123", "giza","seif@gmail.com","123456",3000.0));
+            CustomersDummyDatabase.addCustomer(new Customer("Kiro123", "456", "haram","kiro@gmail.com","1234567",3500.0));
+            CustomersDummyDatabase.addCustomer(new Customer("Yousef123", "789", "hadayek","saleboct@gmail.com","12345678",2000.0));
+        }
     }
     public String register(Customer customer)
     {
-        if(customers.isValid(customer.getUserName()))
+        if(CustomersDummyDatabase.isValid(customer.getUserName()))
         {
-            customers.addCustomer(customer);
+            CustomersDummyDatabase.addCustomer(customer);
             return "Registrestion Completed Succsessfully";
         }
         return "User Name already exists!";
     }
     public String login(String email , String password)
     {
-        if(customers.findCustomer(email,password))
+        if(CustomersDummyDatabase.findCustomer(email,password))
         {
             return "Login Successfully";
         }

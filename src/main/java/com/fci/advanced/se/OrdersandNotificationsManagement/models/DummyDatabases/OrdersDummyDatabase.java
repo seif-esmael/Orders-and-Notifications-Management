@@ -10,7 +10,7 @@ public class OrdersDummyDatabase
 {
     private static List<Order> orders = new ArrayList<>();
 
-    public void addOrder(Order order)
+    public static void addOrder(Order order)
     {
         orders.add(order);
     }
@@ -25,7 +25,7 @@ public class OrdersDummyDatabase
             }
         }
     }
-    public Order getOrder(int orderID)
+    public static Order getOrder(int orderID)
     {
         for(Order i : orders)
         {
@@ -35,5 +35,9 @@ public class OrdersDummyDatabase
             }
         }
         return null;
+    }
+    public static int getSize()
+    {
+        return orders.size();
     }
 }

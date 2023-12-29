@@ -1,9 +1,11 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CompoundOrder extends Order{
-    private List<Order> orders;
+public class CompoundOrder extends Order
+{
+    private List<Order> orders = new ArrayList<>();
 
     public CompoundOrder(double price, String customerName, String address)
     {
@@ -11,11 +13,21 @@ public class CompoundOrder extends Order{
     }
      public void addOrder(Order order)
      {
-
+         orders.add(order);
      }
-
-     public boolean removeOrder(Order order)
+     public void removeOrder(Order order)
      {
-         return true;
+         for(int i = 0; i < orders.size(); i++)
+         {
+             if(orders.get(i).equals(order))
+             {
+                 orders.remove(i);
+                 return;
+             }
+         }
+     }
+     public List<Order> getOrders()
+     {
+         return orders;
      }
 }

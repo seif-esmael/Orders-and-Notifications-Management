@@ -17,37 +17,45 @@ public class NotificationService
 
     public void applyPlaceHolders(Map<Character, String> placeholders, String message)
     {
-        for(int i=0; i<placeholders.keySet().size(); i++)
+        String newMessage = "";
+        for(int j = 0; j < message.length(); j++)
         {
-            for(int j = 0; j < message.length(); j++)
+            if(message.charAt(j) == '{')
             {
-                if(placeholders.containsKey(message.charAt(j)) && message.charAt(j-1)=='{')
-                {
-                    String temp = placeholders.get(message.charAt(j));
-                    placeholders.remove(message.charAt(j));
-                    String Begin = message.substring(0,j-1);
-                    String End = message.substring(j+2);
-                    message = Begin + temp + End;
-                    this.notification.setContent(message);
-                }
+                j++;
+                String temp = placeholders.get(message.charAt(j));
+                placeholders.remove(message.charAt(j));
+                newMessage += temp;
+                j++;
+            }
+            else
+            {
+                newMessage += message.charAt(j);
             }
         }
+        this.notification.setContent(newMessage);
     }
     public String useLanguage(Language language)
     {
-        return " {THIS IS SENT USING " + language.toString() + "LANGUAGE}\n";
+        return " {THIS IS SENT USING " + language.toString() + " LANGUAGE}\n";
+    }
+    public String useChannel(Channel channel)
+    {
+        return channel.getMessageContent();
     }
     public void addNotification(Notification notification)
     {
         NotificationQueue.insert(notification);
     }
-    public String displayNotifications(Language language)
+    public String displayNotifications(Language language, Channel channel)
     {
-        String result = "sxsxs";
+        String result = "";
         for(Notification i : NotificationQueue.notifications)
         {
             result += i.getContent();
             result += useLanguage(language);
+            result += useChannel(channel);
+            result += '\n';
             result += '\n';
         }
         return result;

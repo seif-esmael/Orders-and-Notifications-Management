@@ -1,16 +1,23 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.Controllers;
 
+import com.fci.advanced.se.OrdersandNotificationsManagement.Services.CompoundOrderService;
 import com.fci.advanced.se.OrdersandNotificationsManagement.Services.SimpleOrderService;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping(value = "/simpleOrders")
-public class SimpleOrderController
-{
-    private SimpleOrderService orderService = new SimpleOrderService();
+import java.util.List;
 
+@RestController
+@RequestMapping(value = "/compoundOrders")
+public class CompoundOrderController
+{
+    private CompoundOrderService orderService = new CompoundOrderService();
+    @PostMapping(value = "/createOrder")
+    public String createCompoundOrder(@RequestParam String username, @RequestParam List<Integer> orderIDs, @RequestParam String address)
+    {
+        return orderService.createCompoundOrder(username,orderIDs,address);
+    }
     @GetMapping(value = "/showOrderDetails")
     public Order showOrderDetails(@RequestParam int orderID)
     {

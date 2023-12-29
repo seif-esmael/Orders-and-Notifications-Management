@@ -17,7 +17,7 @@ public class SimpleOrder extends Order
     }
     public void addProducts(Cart cart)
     {
-        products = cart.products;
+        products.putAll(cart.products);
     }
     public String getProducts()
     {

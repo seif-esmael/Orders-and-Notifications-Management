@@ -5,14 +5,12 @@ import java.util.Map;
 public class Notification
 {
     private static Long notificationID=1L;
-    private State state;
     private Map<Character,String>placeholders;
     private String messageContent;
 
     public Notification()
     {
         notificationID++;
-        this.state = State.TO_BE_SENT;
     }
     public void setContent(String content)
     {
@@ -28,14 +26,6 @@ public class Notification
 
     public void setNotificationID(Long notificationID) {
         Notification.notificationID = notificationID;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
     public Map<Character, String> getPlaceholders() {

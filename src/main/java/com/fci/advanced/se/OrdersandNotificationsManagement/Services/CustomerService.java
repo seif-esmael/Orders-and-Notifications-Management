@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CustomerService {
-
+public class CustomerService
+{
     public CustomerService()
     {
         if(CustomersDummyDatabase.getSize() == 0)

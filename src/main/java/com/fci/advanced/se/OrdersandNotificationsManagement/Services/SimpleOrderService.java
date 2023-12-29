@@ -41,7 +41,7 @@ public class SimpleOrderService implements OrderService
         Order order = OrdersDummyDatabase.getOrder(orderID);
         if(order == null)
         {
-            return "Order is not found";
+            return "order is not found";
         }
         if(order.isPlaced())
         {
@@ -86,6 +86,10 @@ public class SimpleOrderService implements OrderService
         {
             return "Order is not found";
         }
+        if(!order.isPlaced())
+        {
+            return "Order is not placed!";
+        }
         Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
         if(shipping.getFees() > customer.getBalance())
         {
@@ -94,6 +98,8 @@ public class SimpleOrderService implements OrderService
         order.setBeingShipped(true);
         customer.setBalance(customer.getBalance() - shipping.getFees());
         ShippingsDummyDatabase.addShipping(shipping);
+        NotificationTemplate simpleShippingTemplate = NotificationTemplate.ShippingSimple;
+        notifyObserver(orderID, simpleShippingTemplate);
         return "The Order is placed for shipping with fees " + shipping.getFees();
     }
     public String cancelOrderShipping(String address,int orderID)

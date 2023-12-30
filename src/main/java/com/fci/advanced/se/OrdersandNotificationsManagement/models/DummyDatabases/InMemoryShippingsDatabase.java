@@ -5,14 +5,14 @@ import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Ship
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShippingsDummyDatabase
+public class InMemoryShippingsDatabase implements ShippingDatabase
 {
-    private static List<Shipping> shippings = new ArrayList<>();
-    public static void addShipping(Shipping shipping)
+    public static List<Shipping> shippings = new ArrayList<>();
+    public void addShipping(Shipping shipping)
     {
         shippings.add(shipping);
     }
-    public static void removeShipping(Shipping shipping)
+    public void removeShipping(Shipping shipping)
     {
         for(int i = 0; i < shippings.size(); i++)
         {
@@ -23,7 +23,7 @@ public class ShippingsDummyDatabase
             }
         }
     }
-    public static Shipping getShipping(int orderID)
+    public Shipping getShipping(int orderID)
     {
         for(Shipping i : shippings)
         {
@@ -33,9 +33,5 @@ public class ShippingsDummyDatabase
             }
         }
         return null;
-    }
-    public int getSize()
-    {
-        return shippings.size();
     }
 }

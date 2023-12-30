@@ -1,15 +1,14 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases;
 
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Order;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.SimpleOrder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersDummyDatabase
+public class InMemoryOrdersDatabase implements OrderDatabase
 {
-    private static List<Order> orders = new ArrayList<>();
-    public static void addOrder(Order order)
+    public static List<Order> orders = new ArrayList<>();
+    public void addOrder(Order order)
     {
         orders.add(order);
     }
@@ -24,7 +23,7 @@ public class OrdersDummyDatabase
             }
         }
     }
-    public static Order getOrder(int orderID)
+    public Order getOrder(int orderID)
     {
         for(Order i : orders)
         {
@@ -34,9 +33,5 @@ public class OrdersDummyDatabase
             }
         }
         return null;
-    }
-    public static int getSize()
-    {
-        return orders.size();
     }
 }

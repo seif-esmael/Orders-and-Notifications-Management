@@ -1,14 +1,15 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.Services;
 
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.CustomersDummyDatabase;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.OrdersDummyDatabase;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.CustomerDatabase;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.InMemoryCustomersDatabase;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.InMemoryOrdersDatabase;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.OrderDatabase;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Order;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.SimpleOrder;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Products.Product;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Shopping.Cart;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -17,6 +18,8 @@ public class CartService {
     private CustomerService customerService = new CustomerService();
     private InventoryService inventoryService = new InventoryService();
     private SimpleOrderService orderService = new SimpleOrderService();
+    private CustomerDatabase customersDatabase = new InMemoryCustomersDatabase();
+    private OrderDatabase ordersDatabase = new InMemoryOrdersDatabase();
 
     public CartService() {
         this.cart = new Cart();
@@ -24,7 +27,7 @@ public class CartService {
 
     public String addProductQuantity(String customerUsername,int serialNo, int quantity)
     {
-        this.cart = CustomersDummyDatabase.getUserCart(customerUsername);
+        this.cart = customersDatabase.getUserCart(customerUsername);
         Product product = inventoryService.getProductBySerialNumber(serialNo);
         int newQuantity = quantity;
         if(cart.products.containsKey(product))
@@ -43,7 +46,7 @@ public class CartService {
 
     public String removeProductQuantity(String customerUsername, int serialNo, int quantity)
     {
-        this.cart = CustomersDummyDatabase.getUserCart(customerUsername);
+        this.cart = customersDatabase.getUserCart(customerUsername);
         if(isAvailableQuantity(serialNo,quantity))
         {
             Product product = inventoryService.getProductBySerialNumber(serialNo);
@@ -74,10 +77,10 @@ public class CartService {
     }
     public Order checkout(String customerUsername, String address)
     {
-        this.cart = CustomersDummyDatabase.getUserCart(customerUsername);
+        this.cart = customersDatabase.getUserCart(customerUsername);
         SimpleOrder simpleorder = new SimpleOrder(cart.getTotalPrice(),customerUsername,address);
         simpleorder.addProducts(this.cart);
-        OrdersDummyDatabase.addOrder(simpleorder);
+        ordersDatabase.addOrder(simpleorder);
         for(Map.Entry<Product, Integer> entry : cart.products.entrySet())
         {
             inventoryService.updateProductQuantity(entry.getKey().getSerialNumber(),entry.getValue());

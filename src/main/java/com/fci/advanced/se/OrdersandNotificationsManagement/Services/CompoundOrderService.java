@@ -1,13 +1,10 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.Services;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.CustomersDummyDatabase;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.OrdersDummyDatabase;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.ShippingsDummyDatabase;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.*;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification.NotificationTemplate;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.*;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,10 +12,13 @@ public class CompoundOrderService
 {
     private CompoundOrderObserver observer = new CompoundOrderObserver(this);
     private SimpleOrderService simpleOrderService = new SimpleOrderService();
+    private CustomerDatabase customersDatabase = new InMemoryCustomersDatabase();
+    private OrderDatabase ordersDatabase = new InMemoryOrdersDatabase();
+    private ShippingDatabase shippingsDatabase = new InMemoryShippingsDatabase();
 
     public Order showOrderDetails(int orderID)
     {
-        return OrdersDummyDatabase.getOrder(orderID);
+        return ordersDatabase.getOrder(orderID);
     }
     public void notifyObserver(int orderID, NotificationTemplate notificationTemplate)
     {
@@ -31,7 +31,7 @@ public class CompoundOrderService
         boolean checkIfThereIsOrderOfYours = false;
         for(Integer i : orderIDs)
         {
-            Order order = OrdersDummyDatabase.getOrder(i);
+            Order order = ordersDatabase.getOrder(i);
             if(order == null)
             {
                 return "The order with ID: " + i + " is not found!";
@@ -56,12 +56,12 @@ public class CompoundOrderService
             return "There is no order of yours in these orders, please add at least one order of your own!";
         }
         compoundOrder.setPrice(totalPrice);
-        OrdersDummyDatabase.addOrder(compoundOrder);
+        ordersDatabase.addOrder(compoundOrder);
         return "Order created created successfully with ID: " + compoundOrder.getId();
     }
     public String placeOrder(int orderID)
     {
-        Order compoundOrder = OrdersDummyDatabase.getOrder(orderID);
+        Order compoundOrder = ordersDatabase.getOrder(orderID);
         if(compoundOrder == null)
         {
             return "Order is not found";
@@ -74,7 +74,7 @@ public class CompoundOrderService
         String problems = "";
         for(Order order : orders)
         {
-            Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
+            Customer customer = customersDatabase.getCustomer(order.getCustomerName());
             if(customer.getBalance() < order.getPrice())
             {
                 problems += customer.getUserName() + ' ';
@@ -85,7 +85,7 @@ public class CompoundOrderService
             compoundOrder.setPlaced(true);
             for(Order order : orders)
             {
-                Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
+                Customer customer = customersDatabase.getCustomer(order.getCustomerName());
                 customer.setBalance(customer.getBalance()-order.getPrice());
                 order.setPlaced(true);
             }
@@ -97,7 +97,7 @@ public class CompoundOrderService
     }
     public String cancelOrderPlacement(int orderID)
     {
-        Order compoundOrder = OrdersDummyDatabase.getOrder(orderID);
+        Order compoundOrder = ordersDatabase.getOrder(orderID);
         if(compoundOrder == null)
         {
             return "Order is not found!";
@@ -114,7 +114,7 @@ public class CompoundOrderService
         List<Order> orders = ((CompoundOrder) compoundOrder).getOrders();
         for(Order order : orders)
         {
-            Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
+            Customer customer = customersDatabase.getCustomer(order.getCustomerName());
             customer.setBalance(customer.getBalance()+order.getPrice());
             order.setPlaced(false);
         }
@@ -123,7 +123,7 @@ public class CompoundOrderService
     public String packageOrder(String address, int orderID)
     {
         Shipping shipping = new Shipping(orderID,address);
-        Order compoundOrder = OrdersDummyDatabase.getOrder(orderID);
+        Order compoundOrder = ordersDatabase.getOrder(orderID);
         if(compoundOrder == null)
         {
             return "Order is not found";
@@ -141,7 +141,7 @@ public class CompoundOrderService
         String problems = "";
         for(Order order : orders)
         {
-            Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
+            Customer customer = customersDatabase.getCustomer(order.getCustomerName());
             if(customer.getBalance() < feesForEach)
             {
                 problems += customer.getUserName() + ' ';
@@ -152,11 +152,11 @@ public class CompoundOrderService
             compoundOrder.setBeingShipped(true);
             for(Order order : orders)
             {
-                Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
+                Customer customer = customersDatabase.getCustomer(order.getCustomerName());
                 customer.setBalance(customer.getBalance()-feesForEach);
                 order.setBeingShipped(true);
             }
-            ShippingsDummyDatabase.addShipping(shipping);
+            shippingsDatabase.addShipping(shipping);
             NotificationTemplate compoundShippingTemplate = NotificationTemplate.ShippingCompound;
             notifyObserver(orderID, compoundShippingTemplate);
             return "The Order is placed for shipping with fees " + feesForEach + " for each customer in the order" + ", you can cancel order shipping during the next minute only!";
@@ -165,7 +165,7 @@ public class CompoundOrderService
     }
     public String cancelOrderShipping(String address,int orderID)
     {
-        Order compoundOrder = OrdersDummyDatabase.getOrder(orderID);
+        Order compoundOrder = ordersDatabase.getOrder(orderID);
         if(compoundOrder == null)
         {
             return "Order is not found";
@@ -174,7 +174,7 @@ public class CompoundOrderService
         {
             return "Order is not placed for shipping!";
         }
-        Shipping shipping = ShippingsDummyDatabase.getShipping(orderID);
+        Shipping shipping = shippingsDatabase.getShipping(orderID);
         if(shipping.getCancelPlacementDuration() == 0)
         {
             return "You can't cancel shipping now as its cancel shipping duration is ended!";
@@ -182,10 +182,10 @@ public class CompoundOrderService
         compoundOrder.setBeingShipped(false);
         List<Order> orders = ((CompoundOrder) compoundOrder).getOrders();
         double feesForEach = shipping.getFees()/orders.size();
-        ShippingsDummyDatabase.removeShipping(shipping);
+        shippingsDatabase.removeShipping(shipping);
         for(Order order : orders)
         {
-            Customer customer = CustomersDummyDatabase.getCustomer(order.getCustomerName());
+            Customer customer = customersDatabase.getCustomer(order.getCustomerName());
             customer.setBalance(customer.getBalance()+feesForEach);
             order.setBeingShipped(false);
         }
@@ -193,7 +193,7 @@ public class CompoundOrderService
     }
     public Order getOrder(int orderID)
     {
-        return OrdersDummyDatabase.getOrder(orderID);
+        return ordersDatabase.getOrder(orderID);
     }
     public String getOrderCustomers(int orderID)
     {

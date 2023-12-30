@@ -6,10 +6,10 @@ import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomersDummyDatabase
+public class InMemoryCustomersDatabase implements CustomerDatabase
 {
     private final static List<Customer> customers = new ArrayList<>();
-    public static void addCustomer(Customer customer)
+    public void addCustomer(Customer customer)
     {
         customers.add(customer);
     }
@@ -24,7 +24,7 @@ public class CustomersDummyDatabase
             }
         }
     }
-    public static Customer getCustomer(String username)
+    public Customer getCustomer(String username)
     {
         for(Customer i : customers)
         {
@@ -35,7 +35,7 @@ public class CustomersDummyDatabase
         }
         return null;
     }
-    public static boolean isValid(String username)
+    public boolean isValid(String username)
     {
         for(Customer i : customers)
         {
@@ -46,7 +46,7 @@ public class CustomersDummyDatabase
         }
         return true;
     }
-    public static boolean findCustomer(String email, String password)
+    public boolean findCustomer(String email, String password)
     {
         for (Customer c : customers) {
             if (c.getEmail().equals(email) && c.getPassword().equals(password))
@@ -56,7 +56,7 @@ public class CustomersDummyDatabase
         }
         return false;
     }
-    public static Cart getUserCart(String userName)
+    public Cart getUserCart(String userName)
     {
         for (Customer c : customers)
         {
@@ -67,7 +67,7 @@ public class CustomersDummyDatabase
         }
         return null;
     }
-    public static int getSize()
+    public int getSize()
     {
         return customers.size();
     }

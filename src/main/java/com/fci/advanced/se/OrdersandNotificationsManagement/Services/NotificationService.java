@@ -1,8 +1,8 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.Services;
 
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.CustomersDummyDatabase;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.CustomerDatabase;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.InMemoryCustomersDatabase;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification.*;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.Products.Product;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +12,7 @@ import java.util.Map;
 public class NotificationService
 {
     private Notification notification;
+    private CustomerDatabase customersDatabase = new InMemoryCustomersDatabase();
 
     public void setNotification(Notification notification)
     {
@@ -77,7 +78,7 @@ public class NotificationService
         }
         if(!username.equals(""))
         {
-            Customer customer = CustomersDummyDatabase.getCustomer(username);
+            Customer customer = customersDatabase.getCustomer(username);
             return "Most notified is: " + customer.getEmail() + " with total notifications: " + maxi;
         }
         return "No notifications sent yet!";
@@ -96,7 +97,7 @@ public class NotificationService
         }
         if(!username.equals(""))
         {
-            Customer customer = CustomersDummyDatabase.getCustomer(username);
+            Customer customer = customersDatabase.getCustomer(username);
             return "Most notified is: " + customer.getPhoneNumber() + " with total notifications: " + maxi;
         }
         return "No notifications sent yet!";

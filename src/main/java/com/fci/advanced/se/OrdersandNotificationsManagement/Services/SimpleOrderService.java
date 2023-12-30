@@ -9,14 +9,12 @@ import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer
 import org.springframework.stereotype.Service;
 
 @Service
-public class SimpleOrderService implements OrderService
+public class SimpleOrderService implements OrderService, Subject
 {
     private SimpleOrderObserver observer = new SimpleOrderObserver(this);
     private CustomerDatabase customersDatabase = new InMemoryCustomersDatabase();
     private OrderDatabase ordersDatabase = new InMemoryOrdersDatabase();
     private ShippingDatabase shippingsDatabase = new InMemoryShippingsDatabase();
-
-
     public SimpleOrderService()
     {
         if(((InMemoryOrdersDatabase)ordersDatabase).orders.size() == 0)

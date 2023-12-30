@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CompoundOrderService
+public class CompoundOrderService implements OrderService, Subject
 {
     private CompoundOrderObserver observer = new CompoundOrderObserver(this);
     private SimpleOrderService simpleOrderService = new SimpleOrderService();

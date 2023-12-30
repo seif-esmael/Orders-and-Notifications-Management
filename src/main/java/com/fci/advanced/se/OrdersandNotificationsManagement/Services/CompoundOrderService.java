@@ -66,6 +66,10 @@ public class CompoundOrderService implements OrderService, Subject
         {
             return "Order is not found";
         }
+        if(compoundOrder instanceof SimpleOrder)
+        {
+            return "The order is not compound order";
+        }
         if(compoundOrder.isPlaced())
         {
             return "Order is already placed!";
@@ -102,6 +106,10 @@ public class CompoundOrderService implements OrderService, Subject
         {
             return "Order is not found!";
         }
+        if(compoundOrder instanceof SimpleOrder)
+        {
+            return "The order is not compound order";
+        }
         if(!compoundOrder.isPlaced())
         {
             return "Order is not yet placed!";
@@ -127,6 +135,10 @@ public class CompoundOrderService implements OrderService, Subject
         if(compoundOrder == null)
         {
             return "Order is not found";
+        }
+        if(compoundOrder instanceof SimpleOrder)
+        {
+            return "The order is not compound order";
         }
         if(!compoundOrder.isPlaced())
         {
@@ -170,6 +182,10 @@ public class CompoundOrderService implements OrderService, Subject
         {
             return "Order is not found";
         }
+        if(compoundOrder instanceof SimpleOrder)
+        {
+            return "The order is not compound order";
+        }
         if(!compoundOrder.isBeingShipped())
         {
             return "Order is not placed for shipping!";
@@ -198,6 +214,10 @@ public class CompoundOrderService implements OrderService, Subject
     public String getOrderCustomers(int orderID)
     {
         Order order = getOrder(orderID);
+        if(order instanceof SimpleOrder)
+        {
+            return "The order is not compound order";
+        }
         String customerNames = "";
         for(Order o : ((CompoundOrder) order).getOrders())
         {

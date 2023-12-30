@@ -1,10 +1,7 @@
 package com.fci.advanced.se.OrdersandNotificationsManagement.Services;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.DummyDatabases.*;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.Notification.NotificationTemplate;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Order;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.SimpleOrderObserver;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.Shipping;
-import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.SimpleOrder;
+import com.fci.advanced.se.OrdersandNotificationsManagement.models.Ordering.*;
 import com.fci.advanced.se.OrdersandNotificationsManagement.models.User.Customer;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +40,10 @@ public class SimpleOrderService implements OrderService, Subject
         {
             return "order is not found";
         }
+        if(order instanceof CompoundOrder)
+        {
+            return "The order is not simple order";
+        }
         if(order.isPlaced())
         {
             return "Order is already placed!";
@@ -65,6 +66,10 @@ public class SimpleOrderService implements OrderService, Subject
         {
             return "Order is not found";
         }
+        if(order instanceof CompoundOrder)
+        {
+            return "The order is not simple order";
+        }
         if(!order.isPlaced())
         {
             return "Order is not placed";
@@ -85,6 +90,10 @@ public class SimpleOrderService implements OrderService, Subject
         if(order == null)
         {
             return "Order is not found";
+        }
+        if(order instanceof CompoundOrder)
+        {
+            return "The order is not simple order";
         }
         if(!order.isPlaced())
         {
@@ -108,6 +117,10 @@ public class SimpleOrderService implements OrderService, Subject
         if(order == null)
         {
             return "Order is not found";
+        }
+        if(order instanceof CompoundOrder)
+        {
+            return "The order is not simple order";
         }
         if(!order.isBeingShipped())
         {
